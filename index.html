@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>C++ WASM Demo</title>
+</head>
+<body>
+  <span style="font-size: 50px;">🐶</span>
+  <button id="hi">Say hi</button>
+  <button id="bark">Bark (console)</button>
+  <input id="content" type="text" />
+  <script src="/dog.js"></script>
+  <script>
+    Module.addOnPostRun(() => {
+      const dog = new Module.Dog('Snoopy')
+      hi.onclick = () => alert(dog.getGreeting())
+      bark.onclick = () => dog.makeSound("make Sound")  //传递参数给c++
+      content.oninput = () => dog.inputValue(content.value) //mvvm数据绑定
+
+      // content.oninput = () => {
+      //   content.value = dog.inputValue(content.value)  /*经过c++ inputValue函数处理的值再return回来设置给input框*/
+      // }
+
+      //content.oninput = () => dog.inputValue(content.value)  //实时的把input框中的数据传递到c++
+    })
+  </script>
+</body>
+</html>
